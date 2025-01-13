@@ -1,7 +1,7 @@
 import axios from "axios"
 import { NextRequest } from "next/server"
 import { getCookie } from "../../../../utils/server"
-import { mockJSONData } from "../../../constants/mock-data"
+import { mockJSONData } from "../../../../constants/mock-data"
 
 interface obj {
   [key: string]: unknown[]
@@ -9,6 +9,8 @@ interface obj {
 
 export async function GET(request: NextRequest) {
   const token = getCookie(request.headers.get("cookie"), "auth-token")
+
+  if (!token) return Response.json({ error: "Invalid access" }, { status: 400 })
 
   const email = atob(token)
 

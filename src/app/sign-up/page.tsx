@@ -1,8 +1,8 @@
 "use client"
 
 import { Alert, Button, Form, Input } from "@nextui-org/react"
-import { useState } from "react"
-import { emailRegexPattern } from "../constants/regex"
+import { FormEvent, useState } from "react"
+import { emailRegexPattern } from "../../constants/regex"
 import Image from "next/image"
 import axios, { AxiosError } from "axios"
 import { useAuthStore } from "../../store/auth"
@@ -23,7 +23,7 @@ export default function SignUp() {
 
   const emailRegex = new RegExp(emailRegexPattern)
 
-  const getPasswordError = (value) => {
+  const getPasswordError = (value: string) => {
     if (value.length < 4) {
       return "Password must be 4 characters or more"
     }
@@ -40,7 +40,7 @@ export default function SignUp() {
     return null
   }
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
     setSubmiting(true)
@@ -50,19 +50,19 @@ export default function SignUp() {
       const response = await axios.post("/api/authentication/signup", {
         data: {
           ...data,
-          secretWords: data.secretWords.trim(),
-          password: await encryptPassword(data.password.trim()),
+          secretWords: data.secretWords.toString().trim(),
+          password: await encryptPassword(data.password.toString().trim()),
         },
       })
 
       if (response.status === 200) {
         login(
-          { email: data.email, fullname: data.fullname },
+          { email: data.email.toString(), fullname: data.fullname.toString() },
           response.data.accessToken
         )
         router.replace("/home")
       } else {
-        throw new Error(response.error || "An error occurred")
+        throw new Error(response.data.error || "An error occurred")
       }
     } catch (err) {
       if (err instanceof AxiosError) {

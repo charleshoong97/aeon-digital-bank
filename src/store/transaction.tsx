@@ -1,6 +1,6 @@
 import axios from "axios"
-import { create } from "zustand"
-import { createJSONStorage, persist } from "zustand/middleware"
+import { create, StateCreator } from "zustand"
+import { createJSONStorage, persist, PersistOptions } from "zustand/middleware"
 
 export interface TransactionInterface {
   date: string
@@ -17,8 +17,13 @@ export interface TransactionState {
   fetchData: () => void
 }
 
+type TransactionStatePersist = (
+  config: StateCreator<TransactionState>,
+  options: PersistOptions<TransactionState>
+) => StateCreator<TransactionState>
+
 export const useTransactionStore = create<TransactionState>(
-  persist(
+  (persist as TransactionStatePersist)(
     (set) => ({
       transactions: [],
       isLoading: false,

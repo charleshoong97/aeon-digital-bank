@@ -1,5 +1,5 @@
-import { create } from "zustand"
-import { createJSONStorage, persist } from "zustand/middleware"
+import { create, StateCreator } from "zustand"
+import { createJSONStorage, persist, PersistOptions } from "zustand/middleware"
 import Cookies from "js-cookie"
 
 interface User {
@@ -14,8 +14,13 @@ export interface AuthState {
   logout: () => void
 }
 
+type AuthStorePersist = (
+  config: StateCreator<AuthState>,
+  options: PersistOptions<AuthState>
+) => StateCreator<AuthState>
+
 export const useAuthStore = create<AuthState>(
-  persist(
+  (persist as AuthStorePersist)(
     (set) => ({
       user: null,
       isAuthenticated: false,

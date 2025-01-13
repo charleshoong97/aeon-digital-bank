@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { privateRoute, publicRoute } from "./app/constants/route"
+import { privateRoute, publicRoute } from "./constants/route"
 
 export default function middleware(request: NextRequest) {
   const token = request.cookies.get("auth-token")

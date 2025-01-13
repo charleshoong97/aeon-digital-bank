@@ -2,8 +2,8 @@
 
 import { Alert, Button, Form, Input } from "@nextui-org/react"
 import Image from "next/image"
-import { useState } from "react"
-import { emailRegexPattern } from "../constants/regex"
+import { FormEvent, useState } from "react"
+import { emailRegexPattern } from "../../constants/regex"
 import { useAuthStore } from "../../store/auth"
 import axios, { AxiosError } from "axios"
 import { useRouter } from "next/navigation"
@@ -21,7 +21,7 @@ export default function SignIn() {
 
   const emailRegex = new RegExp(emailRegexPattern)
 
-  const getPasswordError = (value) => {
+  const getPasswordError = (value: string) => {
     if (value.length < 4) {
       return "Password must be 4 characters or more"
     }
@@ -38,7 +38,7 @@ export default function SignIn() {
     return null
   }
 
-  const getSecretWords = async (e) => {
+  const getSecretWords = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
     setSubmiting(true)
@@ -52,7 +52,7 @@ export default function SignIn() {
       if (response.status === 200) {
         setSecretWords(response.data.secretWords)
       } else {
-        throw new Error(response.error || "An error occurred")
+        throw new Error(response.data.error || "An error occurred")
       }
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -68,7 +68,7 @@ export default function SignIn() {
     setSubmiting(false)
   }
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
     setSubmiting(true)
@@ -80,7 +80,7 @@ export default function SignIn() {
           ...data,
           email: email,
           secretWords: secretWords,
-          password: await encryptPassword(data.password.trim()),
+          password: await encryptPassword(data.password.toString().trim()),
         },
       })
 
@@ -91,7 +91,7 @@ export default function SignIn() {
         )
         router.replace("/home")
       } else {
-        throw new Error(response.error || "An error occurred")
+        throw new Error(response.data.error || "An error occurred")
       }
     } catch (err) {
       if (err instanceof AxiosError) {

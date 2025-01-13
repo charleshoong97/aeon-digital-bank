@@ -1,5 +1,5 @@
 import axios from "axios"
-import { mockJSONData } from "../../../constants/mock-data"
+import { mockJSONData } from "../../../../constants/mock-data"
 
 interface CredentialInterface {
   email: string

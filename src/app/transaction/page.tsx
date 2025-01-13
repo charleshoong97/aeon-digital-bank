@@ -2,7 +2,10 @@
 
 import { Skeleton } from "@nextui-org/skeleton"
 import { useEffect } from "react"
-import { useTransactionStore } from "../../store/transaction"
+import {
+  TransactionInterface,
+  useTransactionStore,
+} from "../../store/transaction"
 import NoData from "../../components/no-data"
 import {
   Table,
@@ -23,6 +26,7 @@ export default function Transaction() {
     if (transactions.length === 0) {
       fetchData()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // date: string
@@ -114,7 +118,7 @@ export default function Transaction() {
                     </span>
                   </div>
                 ) : (
-                  item[columnKey]
+                  item[columnKey as keyof TransactionInterface] ?? "-"
                 )}
               </TableCell>
             )}
