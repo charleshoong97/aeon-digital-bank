@@ -1,3 +1,7 @@
 export default function Profile() {
-  return <></>
+  return (
+    <>
+      <span>This is profile page</span>
+    </>
+  )
 }
