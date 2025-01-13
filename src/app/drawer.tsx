@@ -13,6 +13,7 @@ import { ArrowLeftRightIcon, HouseIcon, MenuIcon, UserIcon } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import { useAuthStore } from "../store/auth"
 import { Listbox, ListboxItem } from "@nextui-org/listbox"
+import { useTransactionStore } from "../store/transaction"
 
 export default function NextDrawer() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
@@ -79,6 +80,9 @@ export default function NextDrawer() {
                     variant="light"
                     onPress={() => {
                       onClose()
+                      useTransactionStore.setState({
+                        transactions: [],
+                      })
                       logout()
                       router.replace("/sign-in")
                     }}

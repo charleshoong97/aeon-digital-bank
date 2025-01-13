@@ -12,8 +12,8 @@ export default function NoData(props: NoDataInterface) {
       <Image
         className="max-w-[80vw] mb-3"
         src={"/no-data.png"}
-        height={200}
-        width={200}
+        height={100}
+        width={100}
         alt="no-data"
         color="white"
       />

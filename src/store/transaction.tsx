@@ -33,7 +33,10 @@ export const useTransactionStore = create<TransactionState>(
           const response = await axios.get("/api/transaction/get-history", {
             withCredentials: true,
           })
-          set({ transactions: response.data.transactions, isLoading: false })
+          set({
+            transactions: response.data.transactions ?? [],
+            isLoading: false,
+          })
           // set({ isLoading: false })
         } catch (error) {
           console.error("Error:", error)

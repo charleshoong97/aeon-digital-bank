@@ -87,7 +87,11 @@ export default function Transaction() {
         items={transactions.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         )}
-        emptyContent={<NoData description="No history found" />}
+        emptyContent={
+          <div className="my-8">
+            <NoData description="No history found" />
+          </div>
+        }
       >
         {(item) => (
           <TableRow key={item.reference_id}>

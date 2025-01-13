@@ -20,6 +20,7 @@ import Image from "next/image"
 import NextDrawer from "./drawer"
 import { useAuthStore } from "../store/auth"
 import { usePathname, useRouter } from "next/navigation"
+import { useTransactionStore } from "../store/transaction"
 
 export default function NextNavbar() {
   const { isAuthenticated, user, logout } = useAuthStore((state) => state)
@@ -75,6 +76,9 @@ export default function NextNavbar() {
                     key="logout"
                     color="danger"
                     onPress={() => {
+                      useTransactionStore.setState({
+                        transactions: [],
+                      })
                       logout()
                       router.replace("/sign-in")
                     }}
